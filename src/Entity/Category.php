@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @Entity
  * @Table(name="categories")
@@ -19,7 +18,6 @@ class Category {
     */
     private string $name;
 
-
     /**
      * @Column(type="string")
     */
@@ -29,12 +27,6 @@ class Category {
      * @ManyToOne(targetEntity="Category", inversedBy="children")
     **/
     private ?Category $parent;
-/*
-    /**
-     * @OneToMany(targetEntity="Category", mappedBy="parent")
-    **/
-//    private ?Category $children = null;
-
 
     public function getId () : int {
         return $this->id;
@@ -69,14 +61,4 @@ class Category {
         $this->parent = $category;
         return $this;
     }
-/*
-    public function getChildren () : ?Category {
-        return $this->children;    
-    }
-
-    public function setChildren (?Category $category){
-        $this->children = $category;
-        return $this;    
-    }
-*/
 }

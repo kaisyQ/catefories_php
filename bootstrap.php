@@ -7,12 +7,13 @@ use Doctrine\DBAL\DriverManager;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 
+require_once(__DIR__ . "/src/Entity/Category.php");
+
 
 $devMode = true;
+$paths = array(__DIR__ . "/src/Entity");
 
-$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/src'), $devMode);
-
-
+$config = Setup::createAnnotationMetadataConfiguration($paths, $devMode);
 
 $connection = DriverManager::getConnection([
     'driver' => 'pdo_mysql',
