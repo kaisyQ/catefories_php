@@ -1,7 +1,10 @@
 <?php
 
+namespace App;
+
 require_once(__DIR__ . "/./../bootstrap.php");
 
+use App\CategoryDto;
 
 $jsonData = file_get_contents(__DIR__ . "/./../categories.json");
 
@@ -9,23 +12,17 @@ $categories = json_decode($jsonData);
 
 $categoryArray = [];
 
-$pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
-
 function importCategories($categories, &$categoryArray, $parent=null) {
     foreach($categories as $category) {
 
-        $categ = [
-            'id' => $category->id,
-            'name' => $category->name,
-            'alias' => $category->alias,
-            'parent_id' => $parent
-        ];
-
+        $categoryDto = new CategoryDto($category->id, $category->name, $category->alias, $parent);
         
-        $categoryArray[] = $categ;
+        $categoryArray[] = $categoryDto;
+
         if (isset($category->childrens)) {
-            importCategories($category->childrens, $categoryArray, $category->id);
+            importCategories($category->childrens, $categoryArray, $categoryDto->getId());
         }
+
     }
 }
 
@@ -33,17 +30,17 @@ function importCategories($categories, &$categoryArray, $parent=null) {
 
 importCategories($categories, $categoryArray);
 
-foreach ($categoryArray as $categ) {
+foreach ($categoryArray as $categoryDto) {
     $stmt = $pdo->prepare("
         INSERT INTO CATEGORIES (id, name, alias, parent_id) VALUES
         (:id, :name, :alias, :parent_id); 
     ");
 
     $stmt->execute([
-        'id' => $categ['id'],
-        'name' => $categ['name'],
-        'alias' => $categ['alias'],
-        'parent_id' => $categ['parent_id']
+        'id' => $categoryDto->getId(),
+        'name' => $categoryDto->getName(),
+        'alias' => $categoryDto->getAlias(),
+        'parent_id' => $categoryDto->getParentId()
     ]);
 }
 

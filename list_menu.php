@@ -1,6 +1,6 @@
 <?php
 
-$pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
+require_once(__DIR__ . "/./bootstrap.php"); 
 
 $stmt = $pdo->prepare("
     SELECT c1.name AS name1, c2.name AS name2
@@ -8,6 +8,7 @@ $stmt = $pdo->prepare("
     LEFT JOIN categories c2 ON c2.parent_id = c1.id
     WHERE c1.parent_id IS NULL
 ");
+
 $stmt->execute();
 
 echo "<pre>";

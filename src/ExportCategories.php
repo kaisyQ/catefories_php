@@ -4,10 +4,13 @@ require_once(__DIR__ . "/./../bootstrap.php");
 
 
 function getCategoryPath($categoryId, $pdo) {
+    
     $path = '';
     $stmt = $pdo->prepare('SELECT id, name, alias, parent_id FROM Categories WHERE id = ?');
     $stmt->execute([$categoryId]);
+    
     $category = $stmt->fetch(PDO::FETCH_ASSOC);
+    
     if ($category) {
         $path = '/' . $category['alias'];
         if ($category['parent_id']) {
@@ -20,7 +23,6 @@ function getCategoryPath($categoryId, $pdo) {
     return $path;
 }
 
-$pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
 $stmt = $pdo->prepare("SELECT * FROM categories");
 
 $stmt->execute();
