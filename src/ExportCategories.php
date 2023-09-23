@@ -3,25 +3,34 @@
 require_once(__DIR__ . "/./../bootstrap.php");
 
 
-$categories = $em->getRepository(Category::class)->findAll();
-
-
-function getCategoryNameAndURL ($category, &$url) {
-    $parent = $category->getParent();
-    $url = "/" . $category->getAlias() . $url ;
-    if (!isset($parent)) {
-        return;
+function getCategoryPath($categoryId, $pdo) {
+    $path = '';
+    $stmt = $pdo->prepare('SELECT id, name, alias, parent_id FROM Categories WHERE id = ?');
+    $stmt->execute([$categoryId]);
+    $category = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($category) {
+        $path = '/' . $category['alias'];
+        if ($category['parent_id']) {
+            $parentPath = getCategoryPath($category['parent_id'], $pdo);
+            if ($parentPath) {
+                $path = $parentPath . $path;
+            }
+        }
     }
-    getCategoryNameAndURL($parent, $url);
+    return $path;
 }
+
+$pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
+$stmt = $pdo->prepare("SELECT * FROM categories");
+
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $res = [];
-
 foreach($categories as $category) {
-    $url = "";
-    getCategoryNameAndURL($category, $url);
-    $url = "\t" . $category->getName() . " " . $url . "\n";
-    $res[] = $url;
+    $categoryPath = getCategoryPath($category['id'], $pdo);
+    $res[] = $categoryPath . "\n";
 }
+
 
 file_put_contents(__DIR__."/./../categories.txt", $res);

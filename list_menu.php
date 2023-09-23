@@ -2,7 +2,6 @@
 
 $pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
 
-// Выборка категорий первого уровня вложенности и их дочерних категорий
 $stmt = $pdo->prepare("
     SELECT c1.name AS name1, c2.name AS name2
     FROM categories c1
@@ -11,7 +10,6 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute();
 
-// Обход каждой категории и формирование строки с отступами и названием
 echo "<pre>";
 
 

@@ -7,11 +7,9 @@ use Doctrine\DBAL\DriverManager;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 
-require_once(__DIR__ . "/src/Entity/Category.php");
-
 
 $devMode = true;
-$paths = array(__DIR__ . "/src/Entity");
+$paths = array(__DIR__ . "/src");
 
 $config = Setup::createAnnotationMetadataConfiguration($paths, $devMode);
 
