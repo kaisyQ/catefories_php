@@ -1,20 +1,21 @@
 <?php
 
+namespace App;
+
 require_once(__DIR__ . "/./../bootstrap.php");
 
+use App\CategoryRepository;
 
-function getCategoryPath($categoryId, $pdo) {
-    
-    $path = '';
-    $stmt = $pdo->prepare('SELECT id, name, alias, parent_id FROM Categories WHERE id = ?');
-    $stmt->execute([$categoryId]);
-    
-    $category = $stmt->fetch(PDO::FETCH_ASSOC);
+$repository = new CategoryRepository();
+
+function getCategoryPath($categoryId, $repository) {
+
+    $category = $repository->getById($categoryId);
     
     if ($category) {
         $path = '/' . $category['alias'];
         if ($category['parent_id']) {
-            $parentPath = getCategoryPath($category['parent_id'], $pdo);
+            $parentPath = getCategoryPath($category['parent_id'], $repository);
             if ($parentPath) {
                 $path = $parentPath . $path;
             }
@@ -23,14 +24,11 @@ function getCategoryPath($categoryId, $pdo) {
     return $path;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM categories");
-
-$stmt->execute();
-$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$categories = $repository->getAll();
 
 $res = [];
 foreach($categories as $category) {
-    $categoryPath = getCategoryPath($category['id'], $pdo);
+    $categoryPath = getCategoryPath($category['id'], $repository);
     $res[] = $categoryPath . "\n";
 }
 

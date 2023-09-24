@@ -12,7 +12,7 @@ class CategoryDto {
         $this->id = $id;
         $this->name = $name;
         $this->alias = $alias;
-        $this->parentId = $parentId;
+        $this->parentId = $parentId;        
     }
     public function getId () : int {
         return $this->id;

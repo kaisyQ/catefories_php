@@ -12,6 +12,8 @@ $categories = json_decode($jsonData);
 
 $categoryArray = [];
 
+$repository = new CategoryRepository();
+
 function importCategories($categories, &$categoryArray, $parent=null) {
     foreach($categories as $category) {
 
@@ -31,17 +33,7 @@ function importCategories($categories, &$categoryArray, $parent=null) {
 importCategories($categories, $categoryArray);
 
 foreach ($categoryArray as $categoryDto) {
-    $stmt = $pdo->prepare("
-        INSERT INTO CATEGORIES (id, name, alias, parent_id) VALUES
-        (:id, :name, :alias, :parent_id); 
-    ");
-
-    $stmt->execute([
-        'id' => $categoryDto->getId(),
-        'name' => $categoryDto->getName(),
-        'alias' => $categoryDto->getAlias(),
-        'parent_id' => $categoryDto->getParentId()
-    ]);
+    $repository->save($categoryDto);
 }
 
 
