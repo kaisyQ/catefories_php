@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\CategoryRepository;
-use App\ExportCategoriesHandler;
 use ReflectionClass;
+
+require_once(__DIR__ . "/./../bootstrap.php");
 
 class Container {
     private array $objects = [];

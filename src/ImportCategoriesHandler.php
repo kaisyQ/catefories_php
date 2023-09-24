@@ -6,10 +6,8 @@ use App\CategoryRepository;
 use App\CategoryDto;
 
 class ImportCategoriesHandler {
-    private CategoryRepository $repository;
 
-    public function __construct () {
-        $this->repository = new CategoryRepository();
+    public function __construct (private CategoryRepository $repository) {
     }
 
     public function importCategories($categories, $parent=null) {

@@ -2,32 +2,22 @@
 
 namespace App;
 
-use PDO;
-
 class CategoryRepository {
 
+    public function __construct(private Db $db) {}
     public function getAll () {
-        $pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
-        $stmt = $pdo->prepare("SELECT * FROM categories");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->query("SELECT * FROM categories");
     }
 
     public function getById (int $id) {
-        $pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
-        $stmt = $pdo->prepare('SELECT id, name, alias, parent_id FROM Categories WHERE id = ?');
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->db->query("SELECT id, name, alias, parent_id FROM Categories WHERE id = ?", [$id])[0];
     }
 
     public function save (CategoryDto $categoryDto) {
-        $pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
-        $stmt = $pdo->prepare("
+        return $this->db->query("
             INSERT INTO CATEGORIES (id, name, alias, parent_id) VALUES
             (:id, :name, :alias, :parent_id); 
-        ");
-
-        $stmt->execute([
+        ", [
             'id' => $categoryDto->getId(),
             'name' => $categoryDto->getName(),
             'alias' => $categoryDto->getAlias(),
