@@ -15,4 +15,7 @@ $listMenuHandler = $container->get(ListMenuHandler::class);
 
 $listMenuHandler->getMenuList();
 
+
 echo "</pre>";
+
+echo $_ENV["DATABASE_NAME"];

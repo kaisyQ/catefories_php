@@ -8,7 +8,10 @@ class Db {
     private PDO $pdo;
 
     public function __construct () {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=categories', 'root', '99145673ffF');
+        $this->pdo = new PDO('mysql:host='.$_ENV['DATABASE_HOST'].';dbname='.$_ENV['DATABASE_NAME'], 
+            $_ENV['DATABASE_USER'], 
+            $_ENV['DATABASE_PASSWORD']
+        );
     }
 
     public function query (string $sql, $params = []) : array {

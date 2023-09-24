@@ -1,7 +1,10 @@
 {
     "autoload": {
         "psr-4": {
-            "App\\Dto": "src/"
+            "App\\": "src/"
         }
+    },
+    "require": {
+        "vlucas/phpdotenv": "*"
     }
-} 
+}
