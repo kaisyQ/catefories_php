@@ -5,10 +5,8 @@ namespace App;
 use App\CategoryRepository;
 
 class ExportCategoriesHandler {
-    private $repository;
-
-    public function __construct () {
-        $this->repository = new CategoryRepository();
+    public function __construct (private CategoryRepository $repository) {
+    
     }
     public function getCategoryPath($categoryId) {
 
@@ -26,9 +24,7 @@ class ExportCategoriesHandler {
         return $path;
     }
 
-    public function getCateriesPath () {
-
-
+    public function getCategoriesPath () {
         $categories = $this->repository->getAll();
 
         $res = [];
