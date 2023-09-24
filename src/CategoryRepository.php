@@ -16,6 +16,14 @@ class CategoryRepository {
         return $this->db->query("SELECT id, name, alias, parent_id FROM Categories WHERE id = ?", [$id])[0];
     }
 
+    public function getByParentId(?int $parentId) {
+        if (!isset($parentId)) {
+            return $this->db->query("SELECT id, name, alias, parent_id FROM Categories WHERE parent_id IS NULL");
+        } else {
+            return $this->db->query("SELECT id, name, alias, parent_id FROM Categories WHERE parent_id = ?",  [$parentId]);
+        }
+    }
+
     public function save (Category $category) {
         return $this->db->query("
             INSERT INTO CATEGORIES (id, name, alias, parent_id) VALUES
