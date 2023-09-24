@@ -3,7 +3,7 @@
 namespace App;
 
 use App\CategoryRepository;
-use App\CategoryDto;
+use App\Category;
 
 class ImportCategoriesHandler {
 
@@ -14,7 +14,7 @@ class ImportCategoriesHandler {
         $categoryArray = [];
         foreach($categories as $category) { 
  
-            $categoryDto = new CategoryDto($category->id, $category->name, $category->alias, $parent); 
+            $categoryDto = new Category($category->id, $category->name, $category->alias, $parent); 
             
             $categoryArray[] = $categoryDto; 
     

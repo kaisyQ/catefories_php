@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-class CategoryDto {
+class Category {
     private int $id;
     private string $name;
     private string $alias;
