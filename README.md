@@ -17,4 +17,4 @@
 
 ### to export first level categoris run php src/TxtExportFirstLevelCategories.php
 
-### to see categories menu you need to run a localhost server by command  php -S localhost:8000 and get http://localhost:8000/list_menu.php 
+### to see categories menu you need to run a localhost server by using command  php -S localhost:8000 and get http://localhost:8000/list_menu.php 
